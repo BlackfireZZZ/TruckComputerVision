@@ -25,17 +25,17 @@ def save_pcd_manual(points, filename):
     """
     xyz = np.stack((points["x"], points["y"], points["z"]), axis=-1)
     header = f"""# .PCD v0.7 - Point Cloud Data file format
-VERSION 0.7
-FIELDS x y z
-SIZE 4 4 4
-TYPE F F F
-COUNT 1 1 1
-WIDTH {xyz.shape[0]}
-HEIGHT 1
-VIEWPOINT 0 0 0 1 0 0 0
-POINTS {xyz.shape[0]}
-DATA ascii
-"""
+        VERSION 0.7
+        FIELDS x y z
+        SIZE 4 4 4
+        TYPE F F F
+        COUNT 1 1 1
+        WIDTH {xyz.shape[0]}
+        HEIGHT 1
+        VIEWPOINT 0 0 0 1 0 0 0
+        POINTS {xyz.shape[0]}
+        DATA ascii
+        """
     with open(filename, "w") as f:
         f.write(header)
         np.savetxt(f, xyz, fmt="%.6f %.6f %.6f")
@@ -75,14 +75,14 @@ def find_and_save_points_by_time(input_file, output_file, target_time, epsilon=1
 
 # Задаем параметры
 input_mcap_file = "input_mcap/run-3.mcap"
-output_pcd_file = "output_pcd/run-3-1.pcd"
 start_time = "2024-11-17 4:33:42.475 PM"
-elapsed_time = 48.376609315
 
-
-target_timestamp = get_timestamp(start_time, elapsed_time)
-# Вызов функции
-find_and_save_points_by_time(input_mcap_file, output_pcd_file, target_timestamp)
+for i in range(82):
+    output_pcd_file = "run-3/pointcloud/" + "run-3-" + str(i) + ".pcd"
+    elapsed_time = i * 2
+    target_timestamp = get_timestamp(start_time, elapsed_time)
+    # Вызов функции
+    find_and_save_points_by_time(input_mcap_file, output_pcd_file, target_timestamp)
 
 
 
