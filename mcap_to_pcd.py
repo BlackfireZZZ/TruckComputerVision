@@ -1,3 +1,5 @@
+import os
+
 from mcap.reader import make_reader
 from mcap_ros2.decoder import DecoderFactory
 from timestamp import get_timestamp
@@ -73,12 +75,17 @@ def find_and_save_points_by_time(input_file, output_file, target_time, epsilon=1
 
 
 # Задаем параметры
-input_mcap_file = "input_mcap/run-3.mcap"
-start_time = "2024-11-17 4:33:42.475 PM"
+input_mcap_file = "input_mcap/run-7.mcap"
+start_time = "2024-11-17 4:40:03.455 PM"
 elapsed_time = 0.0
 
+if not os.path.exists("run-7/pointcloud"):
+    os.makedirs("run-7/pointcloud")
+
+root_output_dir = "run-7"
+
 for i in range(82):
-    output_pcd_file = "run-3/pointcloud/" + "run-3-" + str(i) + ".pcd"
+    output_pcd_file = root_output_dir + "/pointcloud/" + root_output_dir + "-" + str(i).zfill(3) + ".pcd"
     # Парсим начальное время и переводим в UTC
     target_timestamp = get_timestamp(start_time, elapsed_time)
     # Вызов функции
