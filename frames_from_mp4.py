@@ -1,6 +1,6 @@
 import cv2
 import os
-
+from config import Config
 
 def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
     """
@@ -73,14 +73,16 @@ def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
         cap.release()
 
 
-# Пример использования
-video_files = [
-    "input_mp4/run-7-0.mp4",
-    "input_mp4/run-7-90.mp4",
-    "input_mp4/run-7-180.mp4",
-    "input_mp4/run-7-270.mp4"
-]
-frequency = 2  # Частота извлечения кадров в секундах
-root_output_directory = "run-7"  # Корневая директория для сохранения изображений
+if __name__ == "__main__":
+    run_name = Config.run_name
+    # Пример использования
+    video_files = [
+        f"input_mp4/{run_name}-0.mp4",
+        f"input_mp4/{run_name}-90.mp4",
+        f"input_mp4/{run_name}-180.mp4",
+        f"input_mp4/{run_name}-270.mp4"
+    ]
+    frequency = Config.frequency  # Частота извлечения кадров в секундах
+    root_output_directory = run_name  # Корневая директория для сохранения изображений
 
-extract_frames_by_frequency(video_files, frequency, root_output_directory)
+    extract_frames_by_frequency(video_files, frequency, root_output_directory)

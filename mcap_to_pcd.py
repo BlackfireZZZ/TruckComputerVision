@@ -2,6 +2,8 @@ import os
 
 from mcap.reader import make_reader
 from mcap_ros2.decoder import DecoderFactory
+
+from config import Config
 from timestamp import get_timestamp
 import numpy as np
 
@@ -74,22 +76,21 @@ def find_and_save_points_by_time(input_file, output_file, target_time, epsilon=1
             print(f"Timestamp {target_time} not found in the file.")
 
 
-# Задаем параметры
-input_mcap_file = "input_mcap/run-7.mcap"
-start_time = "2024-11-17 4:40:03.455 PM"
-elapsed_time = 0.0
+if __name__ == "__main__":
+    # Задаем параметры
+    input_mcap_file = f"input_mcap/{Config.run_name}.mcap"
+    start_time = Config.start_time
+    elapsed_time = Config.elapsed_time
 
-if not os.path.exists("run-7/pointcloud"):
-    os.makedirs("run-7/pointcloud")
+    if not os.path.exists(f"{Config.run_name}/pointcloud"):
+        os.makedirs(f"{Config.run_name}/pointcloud")
 
-root_output_dir = "run-7"
+    root_output_dir = Config.run_name
 
-for i in range(82):
-    output_pcd_file = root_output_dir + "/pointcloud/" + root_output_dir + "-" + str(i).zfill(3) + ".pcd"
-    # Парсим начальное время и переводим в UTC
-    target_timestamp = get_timestamp(start_time, elapsed_time)
-    # Вызов функции
-    find_and_save_points_by_time(input_mcap_file, output_pcd_file, target_timestamp)
-    elapsed_time += 2.0
-
-
+    for i in range(Config.frames_num):
+        output_pcd_file = root_output_dir + "/pointcloud/" + root_output_dir + "-" + str(i).zfill(3) + ".pcd"
+        # Парсим начальное время и переводим в UTC
+        target_timestamp = get_timestamp(start_time, elapsed_time)
+        # Вызов функции
+        find_and_save_points_by_time(input_mcap_file, output_pcd_file, target_timestamp)
+        elapsed_time += Config.frequency
