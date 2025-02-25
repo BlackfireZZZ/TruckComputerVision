@@ -9,3 +9,8 @@ boto3~=1.36.26
 botocore~=1.36.26
 PyYAML~=6.0.2
 pytz~=2025.1
+
+pydantic~=2.10.6
+pydantic-settings~=2.8.0
+
+requests~=2.32.3

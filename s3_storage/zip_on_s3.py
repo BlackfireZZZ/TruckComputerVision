@@ -43,5 +43,28 @@ def upload_files_to_s3(local_dir, bucket_name, s3_prefix):
                     print(f"Uploaded {file} to s3://{bucket_name}/{s3_path}")
 
 
+def download_files_from_s3(bucket_name='the-lab-bucket', s3_prefix='cvat/input/', file_names=None):
+    download_dir = './downloaded_zip/'
+    os.makedirs(download_dir, exist_ok=True)
+
+    objects = s3.list_objects_v2(Bucket=bucket_name, Prefix=s3_prefix)
+    if 'Contents' not in objects:
+        print(f"No files found in s3://{bucket_name}/{s3_prefix}")
+        return
+
+    for obj in objects['Contents']:
+        file_key = obj['Key']
+        file_name = os.path.basename(file_key)
+
+        if file_name.endswith('.zip') and (file_names is None or file_name in file_names):
+            local_path = os.path.join(download_dir, file_name)
+
+            try:
+                s3.download_file(bucket_name, file_key, local_path)
+                print(f"Downloaded {file_name} to {local_path}")
+            except ClientError as e:
+                print(f"Failed to download {file_name}: {e}")
+
+
 # Загружаем файлы и создаем манифест
 upload_files_to_s3(local_dir, bucket_name, s3_prefix)

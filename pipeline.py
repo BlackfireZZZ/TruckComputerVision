@@ -13,6 +13,8 @@ mcap_to_pcd_main()
 
 
 output_dir = "output_zip"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 # Создание пути к архиву
 archive_path = os.path.join(output_dir, run_name)
 # Архивируем папку без сжатия

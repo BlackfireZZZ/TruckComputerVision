@@ -3,4 +3,4 @@ input*/
 output*/
 run*/
 venv
-private_config.py
+.env
