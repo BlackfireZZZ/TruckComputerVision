@@ -1,0 +1,8 @@
+{"key": "cvat/input/Tolpa1.zip", "bucket": "the-lab-bucket", "etag": "4e8fd383cd2f0f938ed7c26cd0462f88-9", "size": 74763724, "last_modified": "2025-02-24T18:59:33.835000+00:00"}
+{"key": "cvat/input/Tolpa2.zip", "bucket": "the-lab-bucket", "etag": "58b5819cc11b0cf00743036e9cf9f143-3", "size": 22814995, "last_modified": "2025-02-24T18:59:36.794000+00:00"}
+{"key": "cvat/input/Tolpa3.zip", "bucket": "the-lab-bucket", "etag": "a3382b958f9a62b4f98f814af702697d-4", "size": 30617430, "last_modified": "2025-02-24T18:59:40.695000+00:00"}
+{"key": "cvat/input/Tolpa5.zip", "bucket": "the-lab-bucket", "etag": "c6f39077494689ce1125b3ca280dc11d", "size": 2631901, "last_modified": "2025-02-24T18:59:41.131000+00:00"}
+{"key": "cvat/input/corner1.zip", "bucket": "the-lab-bucket", "etag": "122a73298d54cf52a9f8636058f6a644-24", "size": 194662252, "last_modified": "2025-02-24T18:58:38.777000+00:00"}
+{"key": "cvat/input/random1.zip", "bucket": "the-lab-bucket", "etag": "cffb4c540fa3ce924d6479c292539251-14", "size": 112165807, "last_modified": "2025-02-24T18:59:06.143000+00:00"}
+{"key": "cvat/input/single1.zip", "bucket": "the-lab-bucket", "etag": "f6fdd4005a182f086b8e19268b090bd7", "size": 5472373, "last_modified": "2025-02-24T18:59:07.397000+00:00"}
+{"key": "cvat/input/single2.zip", "bucket": "the-lab-bucket", "etag": "1763e5d1160d93ec2ce63d402a73dbf2-12", "size": 95100562, "last_modified": "2025-02-24T18:59:25.478000+00:00"}
