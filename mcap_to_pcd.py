@@ -76,7 +76,7 @@ def find_and_save_points_by_time(input_file, output_file, target_time, epsilon=1
             print(f"Timestamp {target_time} not found in the file.")
 
 
-if __name__ == "__main__":
+def mcap_to_pcd_main():
     # Задаем параметры
     input_mcap_file = f"input_mcap/{Config.run_name}.mcap"
     input_metadate_file = f"input_mcap/{Config.run_name}_metadata.yaml"
@@ -95,3 +95,6 @@ if __name__ == "__main__":
         # Вызов функции
         find_and_save_points_by_time(input_mcap_file, output_pcd_file, target_timestamp)
         elapsed_time += Config.frequency
+
+if __name__ == "__main__":
+    mcap_to_pcd_main()

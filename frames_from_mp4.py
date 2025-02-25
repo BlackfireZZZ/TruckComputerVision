@@ -73,7 +73,7 @@ def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
         cap.release()
 
 
-if __name__ == "__main__":
+def frames_from_mp4_main():
     run_name = Config.run_name
     # Пример использования
     video_files = [
@@ -86,3 +86,6 @@ if __name__ == "__main__":
     root_output_directory = run_name  # Корневая директория для сохранения изображений
 
     extract_frames_by_frequency(video_files, frequency, root_output_directory)
+
+if __name__ == "__main__":
+    frames_from_mp4_main()
