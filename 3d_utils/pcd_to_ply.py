@@ -15,22 +15,22 @@ def pcd_to_ply(pcd_file_path, ply_file_path):
 
 
 pcd_paths = [
-    '1.pcd',
-    '2.pcd',
-    '3.pcd',
-    '4.pcd',
-    '5.pcd',
-    '6.pcd',
-    '7.pcd',
-    'people_sprava_10m.pcd',
-    '9.pcd',
-    '10.pcd',
+    "1.pcd",
+    "2.pcd",
+    "3.pcd",
+    "4.pcd",
+    "5.pcd",
+    "6.pcd",
+    "7.pcd",
+    "people_sprava_10m.pcd",
+    "9.pcd",
+    "10.pcd",
 ]
 
-input_dir = 'output_pcd/'
-output_dir = 'output_ply/'
+input_dir = "output_pcd/"
+output_dir = "output_ply/"
 
 for pcd_path in pcd_paths:
-    ply_path = f'{pcd_path[:-4]}.ply'
+    ply_path = f"{pcd_path[:-4]}.ply"
     # Конвертирование PCD в PLY
     pcd_to_ply(input_dir + pcd_path, output_dir + ply_path)

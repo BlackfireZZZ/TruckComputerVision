@@ -2,6 +2,7 @@ import cv2
 import os
 from config import Config
 
+
 def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
     """
     Извлекает кадры из нескольких видео с заданной частотой и сохраняет их как изображения.
@@ -20,7 +21,7 @@ def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
     # Проходим по каждому видео
     for video_path in video_paths:
         # Определяем угол обзора (0, 90, 180, 270) из имени файла
-        angle = os.path.splitext(os.path.basename(video_path))[0].split('-')[-1]
+        angle = os.path.splitext(os.path.basename(video_path))[0].split("-")[-1]
 
         # Открываем видеофайл
         cap = cv2.VideoCapture(video_path)
@@ -43,7 +44,9 @@ def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
         # Извлекаем кадры для каждого времени
         for elapsed_time in elapsed_times:
             # Определяем директорию для сохранения
-            sub_dir_name = f"{launch_name}-{str(elapsed_time // frequency).zfill(3)}_pcd"
+            sub_dir_name = (
+                f"{launch_name}-{str(elapsed_time // frequency).zfill(3)}_pcd"
+            )
             output_dir = os.path.join(root_output_dir, "related_images", sub_dir_name)
 
             if not os.path.exists(output_dir):
@@ -58,16 +61,22 @@ def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
             # Читаем кадр
             ret, frame = cap.read()
             if not ret:
-                print(f"Не удалось извлечь кадр на времени {elapsed_time} сек. из {video_path}")
+                print(
+                    f"Не удалось извлечь кадр на времени {elapsed_time} сек. из {video_path}"
+                )
                 continue
 
             # Формируем имя для файла
-            output_file_name = f"{launch_name}-{str(elapsed_time // frequency).zfill(3)}-{angle}.jpg"
+            output_file_name = (
+                f"{launch_name}-{str(elapsed_time // frequency).zfill(3)}-{angle}.jpg"
+            )
             output_path = os.path.join(output_dir, output_file_name)
 
             # Сохраняем кадр в формате JPG
             cv2.imwrite(output_path, frame)
-            print(f"Кадр на {elapsed_time} сек. из {video_path} успешно сохранен: {output_path}")
+            print(
+                f"Кадр на {elapsed_time} сек. из {video_path} успешно сохранен: {output_path}"
+            )
 
         # Освобождаем ресурсы
         cap.release()
@@ -80,12 +89,13 @@ def frames_from_mp4_main():
         f"input_mp4/{run_name}-0.mp4",
         f"input_mp4/{run_name}-90.mp4",
         f"input_mp4/{run_name}-180.mp4",
-        f"input_mp4/{run_name}-270.mp4"
+        f"input_mp4/{run_name}-270.mp4",
     ]
     frequency = Config.frequency  # Частота извлечения кадров в секундах
     root_output_directory = run_name  # Корневая директория для сохранения изображений
 
     extract_frames_by_frequency(video_files, frequency, root_output_directory)
+
 
 if __name__ == "__main__":
     frames_from_mp4_main()

@@ -61,7 +61,7 @@ def find_and_save_points_by_time(input_file, output_file, target_time, epsilon=1
         reader = make_reader(inp_file, decoder_factories=[DecoderFactory()])
         found = False
         for schema, channel, message, ros_msg in reader.iter_decoded_messages(
-                topics=["/livox/lidar"]
+            topics=["/livox/lidar"]
         ):
             timestamp = message.log_time / 1e9  # Преобразуем в секунды
             # Увеличенный диапазон проверки
@@ -87,14 +87,24 @@ def mcap_to_pcd_main():
         os.makedirs(f"{Config.run_name}/pointcloud")
 
     root_output_dir = Config.run_name
-    frames_num = get_frames_num(input_metadate_file, Config.elapsed_time, Config.frequency)
+    frames_num = get_frames_num(
+        input_metadate_file, Config.elapsed_time, Config.frequency
+    )
     for i in range(frames_num):
-        output_pcd_file = root_output_dir + "/pointcloud/" + root_output_dir + "-" + str(i).zfill(3) + ".pcd"
+        output_pcd_file = (
+            root_output_dir
+            + "/pointcloud/"
+            + root_output_dir
+            + "-"
+            + str(i).zfill(3)
+            + ".pcd"
+        )
         # Парсим начальное время и переводим в UTC
         target_timestamp = get_timestamp(start_time, elapsed_time)
         # Вызов функции
         find_and_save_points_by_time(input_mcap_file, output_pcd_file, target_timestamp)
         elapsed_time += Config.frequency
+
 
 if __name__ == "__main__":
     mcap_to_pcd_main()

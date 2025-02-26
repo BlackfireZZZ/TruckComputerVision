@@ -1,13 +1,12 @@
 from datetime import datetime, timedelta, timezone
 import yaml
 import pytz
-from mcap.reader import make_reader
 
 
 def get_timestamp(start_time_str, elapsed_time):
     # Парсим начальное время и переводим в UTC
     start_time_msk = datetime.strptime(start_time_str, "%Y-%m-%d %I:%M:%S.%f %p")
-    start_time_utc = start_time_msk # MSK -> UTC
+    start_time_utc = start_time_msk  # MSK -> UTC
 
     # Вычисляем целевую временную метку в UTC
     target_time_utc = start_time_utc + timedelta(seconds=elapsed_time)
@@ -19,21 +18,23 @@ def get_timestamp(start_time_str, elapsed_time):
     return target_timestamp
 
 
-def get_start_time(file_path, tz_name='Europe/Moscow') -> str:
-    with open(file_path, 'r', encoding='utf-8') as file:
+def get_start_time(file_path, tz_name="Europe/Moscow") -> str:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
 
     try:
-        nanoseconds_since_epoch = data['rosbag2_bagfile_information']['files'][0]['starting_time'][
-            'nanoseconds_since_epoch']
+        nanoseconds_since_epoch = data["rosbag2_bagfile_information"]["files"][0][
+            "starting_time"
+        ]["nanoseconds_since_epoch"]
 
         # Конвертация в секунды и микросекунды
         timestamp_seconds = nanoseconds_since_epoch // 1_000_000_000
         timestamp_microseconds = (nanoseconds_since_epoch % 1_000_000_000) // 1_000
 
         # Преобразуем в datetime с учетом временной зоны
-        utc_time = datetime.fromtimestamp(timestamp_seconds, tz=timezone.utc) + timedelta(
-            microseconds=timestamp_microseconds)
+        utc_time = datetime.fromtimestamp(
+            timestamp_seconds, tz=timezone.utc
+        ) + timedelta(microseconds=timestamp_microseconds)
         local_time = utc_time.astimezone(pytz.timezone(tz_name))
 
         formatted_time = local_time.strftime("%Y-%m-%d %I:%M:%S.%f %p")
@@ -45,11 +46,13 @@ def get_start_time(file_path, tz_name='Europe/Moscow') -> str:
 
 
 def get_frames_num(file_path, elapsed_time: float, frequency: int) -> int:
-    with open(file_path, 'r', encoding='utf-8') as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
 
     try:
-        duration_ns = data['rosbag2_bagfile_information']['files'][0]['duration']['nanoseconds']
+        duration_ns = data["rosbag2_bagfile_information"]["files"][0]["duration"][
+            "nanoseconds"
+        ]
         duration_seconds = duration_ns / 1_000_000_000
 
         # Рассчитываем доступное время для кадров

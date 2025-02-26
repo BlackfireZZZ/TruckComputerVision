@@ -13,8 +13,8 @@ def list_files_in_buckets(buckets, prefix=None):
 
             response = s3.list_objects_v2(**params)
 
-            if 'Contents' in response:
-                for obj in response['Contents']:
+            if "Contents" in response:
+                for obj in response["Contents"]:
                     print(f"  - {obj['Key']} (Размер: {obj['Size']} байт)")
             else:
                 print("  Бакет пустой.")

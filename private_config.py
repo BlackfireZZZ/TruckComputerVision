@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class PrivateConfig(BaseSettings):
     # Получаем секретную информацию из .env файла или переменных среды
     model_config = SettingsConfigDict(
-        env_file=(Path(__file__).parent.parent / ".env" if not os.getenv("USE_ENV") else None),
+        env_file=(Path(__file__).parent / ".env" if not os.getenv("USE_ENV") else None),
         extra="ignore",
     )
 
@@ -14,4 +14,7 @@ class PrivateConfig(BaseSettings):
     AWS_SECRET_ACCESS_KEY: str
     CVAT_LOGIN: str
     CVAT_PASSWORD: str
-    CVAT_API_URL: str
+    CVAT_HOST: str
+
+
+private_settings = PrivateConfig()
