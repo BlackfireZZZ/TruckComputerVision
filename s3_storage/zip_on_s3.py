@@ -27,9 +27,24 @@ def file_exists_in_s3(bucket, key):
             raise
 
 
+def delete_zip_from_s3(bucket, filename, prefix="cvat/input/"):
+    """
+    Удаляет zip-файл из S3 по имени.
+
+    :param bucket: Имя S3 бакета
+    :param prefix: Префикс (путь внутри бакета)
+    :param filename: Имя файла, включая .zip
+    """
+    key = os.path.join(prefix, filename)
+
+    try:
+        s3.delete_object(Bucket=bucket, Key=key)
+        print(f"Файл '{key}' успешно удален из S3.")
+    except ClientError as e:
+        print(f"Ошибка при удалении файла '{key}': {e}")
+
+
 # Загружаем файлы в S3 только если их нет
-
-
 def upload_files_to_s3(local_dir, bucket_name, s3_prefix):
     for root, _, files in os.walk(local_dir):
         for file in files:
@@ -44,6 +59,19 @@ def upload_files_to_s3(local_dir, bucket_name, s3_prefix):
                 else:
                     s3.upload_file(local_path, bucket_name, s3_path)
                     print(f"Uploaded {file} to s3://{bucket_name}/{s3_path}")
+
+
+def upload_file_on_s3(file_path, bucket_name, s3_prefix="cvat/input/"):
+    file_name = os.path.basename(file_path)
+    s3_path = s3_prefix + file_name
+
+    if file_exists_in_s3(bucket_name, s3_path):
+        print(
+            f"File {file_name} already exists in s3://{bucket_name}/{s3_path}. Skipping upload."
+        )
+    else:
+        s3.upload_file(file_path, bucket_name, s3_path)
+        print(f"Uploaded {file_name} to s3://{bucket_name}/{s3_path}")
 
 
 def download_files_from_s3(
@@ -73,5 +101,6 @@ def download_files_from_s3(
                 print(f"Failed to download {file_name}: {e}")
 
 
-# Загружаем файлы и создаем манифест
-upload_files_to_s3(local_dir, bucket_name, s3_prefix)
+if __name__ == "__main__":
+    upload_files_to_s3(local_dir, bucket_name, s3_prefix)
+# upload_file_on_s3("../output_zip/new_run1.zip", bucket_name)

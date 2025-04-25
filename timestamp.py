@@ -3,7 +3,7 @@ import yaml
 import pytz
 
 
-def get_timestamp(start_time_str, elapsed_time):
+def get_timestamp(start_time_str, elapsed_time) -> float:
     # Парсим начальное время и переводим в UTC
     start_time_msk = datetime.strptime(start_time_str, "%Y-%m-%d %I:%M:%S.%f %p")
     start_time_utc = start_time_msk  # MSK -> UTC
