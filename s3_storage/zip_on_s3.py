@@ -27,7 +27,7 @@ def file_exists_in_s3(bucket: str, key: str) -> bool:
             raise
 
 
-def delete_zip_from_s3(bucket: str, filename: str, prefix: str="cvat/input/"):
+def delete_zip_from_s3(bucket: str, filename: str, prefix: str = "cvat/input/"):
     """
     Удаляет zip-файл из S3 по имени.
 
@@ -67,7 +67,7 @@ def upload_files_to_s3(local_dir: str, bucket_name: str, s3_prefix: str):
                     print(f"Uploaded {file} to s3://{bucket_name}/{s3_path}")
 
 
-def upload_file_on_s3(file_path: str, bucket_name: str, s3_prefix: str="cvat/input/"):
+def upload_file_on_s3(file_path: str, bucket_name: str, s3_prefix: str = "cvat/input/"):
     file_name = os.path.basename(file_path)
     s3_path = s3_prefix + file_name
 
@@ -81,7 +81,7 @@ def upload_file_on_s3(file_path: str, bucket_name: str, s3_prefix: str="cvat/inp
 
 
 def download_files_from_s3(
-    bucket_name: str="the-lab-bucket", s3_prefix: str="cvat/input/", file_names=None
+    bucket_name: str = "the-lab-bucket", s3_prefix: str = "cvat/input/", file_names=None
 ):
     """
     Скачивает zip-файлы из S3.

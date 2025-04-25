@@ -4,7 +4,9 @@ from config import Config
 from typing import List
 
 
-def extract_frames_by_frequency(video_paths: List[str], frequency: int, root_output_dir: str):
+def extract_frames_by_frequency(
+    video_paths: List[str], frequency: int, root_output_dir: str
+):
     """
     Извлекает кадры из нескольких видео с заданной частотой и сохраняет их как изображения.
 

@@ -2,7 +2,7 @@ from s3_storage.get_s3_conn import get_conn
 from typing import List
 
 
-def get_list_files_in_buckets(buckets: List[str], prefix: str | None=None):
+def get_list_files_in_buckets(buckets: List[str], prefix: str | None = None):
     """
     Выводит содержимое указанных бакетов на S3
     :param buckets: Список имен бакетов

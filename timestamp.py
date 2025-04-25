@@ -23,7 +23,9 @@ def get_timestamp(start_time_string: str, elapsed_time: float) -> float:
     return target_timestamp
 
 
-def get_start_time_from_metadate(metadate_file_path: str, tz_name: str="Europe/Moscow") -> str:
+def get_start_time_from_metadate(
+    metadate_file_path: str, tz_name: str = "Europe/Moscow"
+) -> str:
     """
     Получает метку времени в формате "YYYY-MM-DD HH:mm:ss.ffffff AM" из YAML-файла
     :param metadate_file_path: путь к YAML-файлу метаданных

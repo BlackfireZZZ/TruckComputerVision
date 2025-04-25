@@ -76,12 +76,12 @@ def mcap_to_pcd_main():
             timestamp = message.log_time / 1e9  # Преобразуем в секунды
             if timestamp > get_timestamp(start_time, elapsed_time):
                 output_file = (
-                        root_output_dir
-                        + "/pointcloud/"
-                        + root_output_dir
-                        + "-"
-                        + str(i).zfill(3)
-                        + ".pcd"
+                    root_output_dir
+                    + "/pointcloud/"
+                    + root_output_dir
+                    + "-"
+                    + str(i).zfill(3)
+                    + ".pcd"
                 )
                 print(f"Target timestamp {timestamp:.6f} found! Saving points.")
                 points = np.frombuffer(ros_msg.data, dtype=dtype)
