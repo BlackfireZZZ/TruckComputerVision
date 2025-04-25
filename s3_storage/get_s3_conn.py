@@ -4,7 +4,9 @@ from private_config import private_settings
 
 
 def get_conn() -> boto3.client:
-    # Создаем сессию S3
+    """
+    Создание сессии и клиента S3
+    """
     session = boto3.session.Session()
 
     s3 = session.client(

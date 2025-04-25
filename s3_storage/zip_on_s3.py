@@ -10,13 +10,13 @@ session = boto3.session.Session()
 s3 = get_conn()
 
 # Параметры
-bucket_name = "the-lab-bucket"
-local_dir = "../output_zip/"
-s3_prefix = "cvat/input/"
+bucket = "the-lab-bucket"
+zip_dir = "../output_zip/"
+prefix = "cvat/input/"
 
 
 # Проверка существования файла в S3
-def file_exists_in_s3(bucket, key):
+def file_exists_in_s3(bucket: str, key: str) -> bool:
     try:
         s3.head_object(Bucket=bucket, Key=key)
         return True
@@ -27,7 +27,7 @@ def file_exists_in_s3(bucket, key):
             raise
 
 
-def delete_zip_from_s3(bucket, filename, prefix="cvat/input/"):
+def delete_zip_from_s3(bucket: str, filename: str, prefix: str="cvat/input/"):
     """
     Удаляет zip-файл из S3 по имени.
 
@@ -44,8 +44,14 @@ def delete_zip_from_s3(bucket, filename, prefix="cvat/input/"):
         print(f"Ошибка при удалении файла '{key}': {e}")
 
 
-# Загружаем файлы в S3 только если их нет
-def upload_files_to_s3(local_dir, bucket_name, s3_prefix):
+def upload_files_to_s3(local_dir: str, bucket_name: str, s3_prefix: str):
+    """
+    Загружает zip-файлы из локальной директории в S3, если они еще не существуют
+
+    :param local_dir: Путь к локальной директории с zip-файлами
+    :param bucket_name: Имя S3 бакета
+    :param s3_prefix: Префикс (путь внутри бакета)
+    """
     for root, _, files in os.walk(local_dir):
         for file in files:
             if file.endswith(".zip"):
@@ -61,7 +67,7 @@ def upload_files_to_s3(local_dir, bucket_name, s3_prefix):
                     print(f"Uploaded {file} to s3://{bucket_name}/{s3_path}")
 
 
-def upload_file_on_s3(file_path, bucket_name, s3_prefix="cvat/input/"):
+def upload_file_on_s3(file_path: str, bucket_name: str, s3_prefix: str="cvat/input/"):
     file_name = os.path.basename(file_path)
     s3_path = s3_prefix + file_name
 
@@ -75,8 +81,15 @@ def upload_file_on_s3(file_path, bucket_name, s3_prefix="cvat/input/"):
 
 
 def download_files_from_s3(
-    bucket_name="the-lab-bucket", s3_prefix="cvat/input/", file_names=None
+    bucket_name: str="the-lab-bucket", s3_prefix: str="cvat/input/", file_names=None
 ):
+    """
+    Скачивает zip-файлы из S3.
+
+    :param bucket_name: Имя S3 бакета
+    :param s3_prefix: Префикс (путь внутри бакета)
+    :param file_names: Список имен файлов, которые нужно скачать. При None - скачиваются все файлы
+    """
     download_dir = "./downloaded_zip/"
     os.makedirs(download_dir, exist_ok=True)
 
@@ -102,5 +115,5 @@ def download_files_from_s3(
 
 
 if __name__ == "__main__":
-    upload_files_to_s3(local_dir, bucket_name, s3_prefix)
+    upload_files_to_s3(zip_dir, bucket, prefix)
 # upload_file_on_s3("../output_zip/new_run1.zip", bucket_name)

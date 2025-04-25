@@ -1,9 +1,10 @@
 import cv2
 import os
 from config import Config
+from typing import List
 
 
-def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
+def extract_frames_by_frequency(video_paths: List[str], frequency: int, root_output_dir: str):
     """
     Извлекает кадры из нескольких видео с заданной частотой и сохраняет их как изображения.
 
@@ -82,9 +83,8 @@ def extract_frames_by_frequency(video_paths, frequency, root_output_dir):
         cap.release()
 
 
-def frames_from_mp4_main():
+def get_frames_from_mp4_main():
     run_name = Config.run_name
-    # Пример использования
     video_files = [
         f"input_mp4/{run_name}-0.mp4",
         f"input_mp4/{run_name}-90.mp4",
@@ -98,4 +98,4 @@ def frames_from_mp4_main():
 
 
 if __name__ == "__main__":
-    frames_from_mp4_main()
+    get_frames_from_mp4_main()

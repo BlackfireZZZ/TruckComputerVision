@@ -2,6 +2,11 @@ import pandas as pd
 
 
 def csv_to_pcd(csv_file_path, pcd_file_path):
+    """
+    Преобразует csv файл в формат PCD
+    :param csv_file_path: Путь к csv файлу
+    :param pcd_file_path: Путь к PCD файлу
+    """
     # Чтение данных из csv файла, игнорируя все, кроме столбцов X, Y, Z
     df = pd.read_csv(csv_file_path, usecols=["X", "Y", "Z"])
     df = df.dropna()
@@ -45,7 +50,10 @@ csv_paths = [
 
 input_dir = "input_csv/"
 output_dir = "output_pcd/"
-for csv_path in csv_paths:
-    pcd_path = f"{csv_path[:-4]}.pcd"
-    # Создание PCD файла с RGB и дополнительными полями
-    csv_to_pcd(input_dir + csv_path, output_dir + pcd_path)
+
+
+if __name__ == "__main__":
+    for csv_path in csv_paths:
+        pcd_path = f"{csv_path[:-4]}.pcd"
+        # Создание PCD файла с RGB и дополнительными полями
+        csv_to_pcd(input_dir + csv_path, output_dir + pcd_path)

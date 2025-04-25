@@ -3,23 +3,33 @@ import yaml
 import pytz
 
 
-def get_timestamp(start_time_str, elapsed_time) -> float:
-    # Парсим начальное время и переводим в UTC
-    start_time_msk = datetime.strptime(start_time_str, "%Y-%m-%d %I:%M:%S.%f %p")
-    start_time_utc = start_time_msk  # MSK -> UTC
+def get_timestamp(start_time_string: str, elapsed_time: float) -> float:
+    """
+    Получает метку времени в формате UNIX timestamp и возвращает время в секундах с учетом "сдвига" elapsed_time
+    :param start_time_string: строка с временем в формате "YYYY-MM-DD HH:mm:ss.ffffff AM
+    В таком формате отображается дата начала записи в Foxglove
+    :param elapsed_time: сдвиг времени в секундах
+    """
 
-    # Вычисляем целевую временную метку в UTC
+    start_time_msk = datetime.strptime(start_time_string, "%Y-%m-%d %I:%M:%S.%f %p")
+    start_time_utc = start_time_msk
+
+    # Вычисляем целевую временную метку в UTC с учетом сдвига
     target_time_utc = start_time_utc + timedelta(seconds=elapsed_time)
 
-    # Конвертируем в UNIX timestamp
     target_timestamp = target_time_utc.timestamp()
 
     print(f"Target timestamp (UTC): {target_timestamp:.6f}")
     return target_timestamp
 
 
-def get_start_time(file_path, tz_name="Europe/Moscow") -> str:
-    with open(file_path, "r", encoding="utf-8") as file:
+def get_start_time_from_metadate(metadate_file_path: str, tz_name: str="Europe/Moscow") -> str:
+    """
+    Получает метку времени в формате "YYYY-MM-DD HH:mm:ss.ffffff AM" из YAML-файла
+    :param metadate_file_path: путь к YAML-файлу метаданных
+    :param tz_name: название временной зоны
+    """
+    with open(metadate_file_path, "r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
 
     try:
@@ -45,8 +55,14 @@ def get_start_time(file_path, tz_name="Europe/Moscow") -> str:
         return "Невозможно найти метку времени в файле! Проверьте структуру YAML."
 
 
-def get_frames_num(file_path, elapsed_time: float, frequency: int) -> int:
-    with open(file_path, "r", encoding="utf-8") as file:
+def get_frames_num(metadate_file_path: str, elapsed_time: float, frequency: int) -> int:
+    """
+    Получает количество доступных кадров из YAML-файла с учетом заданных в config.py параметров
+    :param metadate_file_path: путь к YAML-файлу метаданных
+    :param elapsed_time: сдвиг времени в секундах
+    :param frequency: частота извлечения кадров
+    """
+    with open(metadate_file_path, "r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
 
     try:

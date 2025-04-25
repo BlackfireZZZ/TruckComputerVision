@@ -4,7 +4,7 @@ from mcap.reader import make_reader
 from mcap_ros2.decoder import DecoderFactory
 
 from config import Config
-from timestamp import get_timestamp, get_start_time, get_frames_num
+from timestamp import get_timestamp, get_start_time_from_metadate, get_frames_num
 import numpy as np
 
 
@@ -25,7 +25,7 @@ dtype = np.dtype(
 
 def save_pcd_manual(points, filename):
     """
-    Сохраняет точки в формате PCD вручную.
+    Сохраняет точки в формате PCD
     """
     xyz = np.stack((points["x"], points["y"], points["z"]), axis=-1)
     header = f"""# .PCD v0.7 - Point Cloud Data file format
@@ -48,10 +48,13 @@ DATA ascii
 
 
 def mcap_to_pcd_main():
+    """
+    Получает кадры pcd из mcap с учетом заданных в config.py параметров
+    """
     # Задаем параметры
     input_mcap_file = f"input_mcap/{Config.run_name}.mcap"
     input_metadate_file = f"input_mcap/{Config.run_name}_metadata.yaml"
-    start_time = get_start_time(input_metadate_file)
+    start_time = get_start_time_from_metadate(input_metadate_file)
     elapsed_time = Config.elapsed_time
 
     if not os.path.exists(f"{Config.run_name}/pointcloud"):
